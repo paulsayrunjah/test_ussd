@@ -9,11 +9,8 @@ $account = "";
 
 $DBH = null;
 try {
-    $host = "localhost";
-    $dbname = "ussd";
-    $user = "root";
-    # MySQL with PDO_MYSQL
-    $DBH = new PDO("mysql:host=$host;dbname=$dbname", $user, "");
+    $dns = "sqlite:./db.sqlite";
+    $DBH = new PDO($dns);
 
 } catch (PDOException $e) {
     echo $e->getMessage();
