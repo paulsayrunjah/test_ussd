@@ -1,0 +1,15 @@
+{
+    "name": "sayrunjah/ussd",
+    "description": "Africa's Talking",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pauuz Sayrunjah",
+            "email": "pausepaule@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-pdo_sqlite": "*"
+    }
+}
