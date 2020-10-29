@@ -96,7 +96,7 @@ function saveUser($DBH, $phone, $name, $email)
 function deleteUser($DBH, $phone)
 {
     if($DBH) {
-        $SQL = $DBH->prepare("DELETE FROM users WHERE phone=$phone");
+        $SQL = $DBH->prepare("DELETE FROM users WHERE phone='$phone'");
         $SQL->execute();
 
         if ($SQL->errorCode() == 0) {
