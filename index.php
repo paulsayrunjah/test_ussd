@@ -33,16 +33,16 @@ if ($user) {
         $response = "CON Welcome back {$user["name"]} to SayrunjahApp \n";
         $response .= "Select service \n 1. Buy Airtime \n 2. Buy Data \n 3. Delete Account";
     } elseif ($level == 1) {
-        $response = "CON Enter amount";
-    } elseif ($level == 2) {
         if($userResponse == "3") {
             $response = deleteUser($DBH, $phoneNumber);
         }else {
+            $response = "CON Enter amount";
+        }
+    } elseif ($level == 2) {
 
             $type = $textArray[0] == "1" ? "Airtime" : "Data";
             $amount = $textArray[1];
             $response = "END Your have bought $type of $amount";
-        }
 
     }
 
