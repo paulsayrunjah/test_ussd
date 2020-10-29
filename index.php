@@ -30,19 +30,25 @@ $user = checkIfNumberRegistered($DBH, $phoneNumber);
 if ($user) {
 
     if ($level == 0) {
-        $response = "CON Welcome back {$user["name"]} \n";
-        $response .= "Select service \n 1. Buy Airtime \n 2. Buy Data";
+        $response = "CON Welcome back {$user["name"]} to SayrunjahApp \n";
+        $response .= "Select service \n 1. Buy Airtime \n 2. Buy Data \n 3. Delete Account";
     } elseif ($level == 1) {
         $response = "CON Enter amount";
     } elseif ($level == 2) {
-        $type = $textArray[0] == "1" ? "Airtime" : "Data";
-        $amount = $textArray[1];
-        $response = "END Your have bought $type of $amount";
+        if($userResponse == "3") {
+            $response = deleteUser($DBH, $phoneNumber);
+        }else {
+
+            $type = $textArray[0] == "1" ? "Airtime" : "Data";
+            $amount = $textArray[1];
+            $response = "END Your have bought $type of $amount";
+        }
+
     }
 
 } else {
     if ($level == 0) {
-        $response = "CON Hi welcome \n";
+        $response = "CON Hi welcome to SayrunjahApp\n";
         $response .= "1. Enter 1 to register";
     } else if ($level == 1) {
         $response = "CON Enter email \n";
@@ -75,15 +81,32 @@ function saveUser($DBH, $phone, $name, $email)
     if ($DBH) {
 
         // build sql statement
-        $sth = $DBH->prepare("INSERT INTO users (name, email, phone) VALUES('$name','$email','$phone')");
+        $SQL = $DBH->prepare("INSERT INTO users (name, email, phone) VALUES('$name','$email','$phone')");
         //execute insert query
-        $sth->execute();
-        if ($sth->errorCode() == 0) {
+        $SQL->execute();
+        if ($SQL->errorCode() == 0) {
             return "END Thank you \n Email: $email \n Name: $name \n Phone: $phone";
         } else {
             //var_dump($sth->errorInfo());
             return "END Dear customer, the network is experiencing technical problems and your request was not processed. Please try again later.";
         }
+    }
+}
+
+function deleteUser($DBH, $phone)
+{
+    if($DBH) {
+        $SQL = $DBH->prepare("DELETE FROM users WHERE phone=?");
+        $SQL->bind_param('s', $phone);
+        $SQL->execute();
+
+        if ($SQL->errorCode() == 0) {
+            return "END Thank you, account delete.";
+        } else {
+            //var_dump($sth->errorInfo());
+            return "END Dear customer, the network is experiencing technical problems and your request was not processed. Please try again later.";
+        }
+
     }
 }
 
